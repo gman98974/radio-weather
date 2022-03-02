@@ -1,14 +1,17 @@
 #include <stdint.h>
 #include <stdio.h>
-#include "sineWave.h"
 #include "Audio_Drivers.h"
+
+#include "sineWave.h"
+
+
 
 int main(void)
 {
 	setup();
-	flashGreen();
+	flashGreen(); // Not functioning correctly
+
 	while(1) {
-		flashGreen();
 		loopAudio();
 	}
 }
