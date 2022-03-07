@@ -1,0 +1,8 @@
+"./Src/Audio_Drivers.o"
+"./Src/cs43l22.o"
+"./Src/main.o"
+"./Src/sineWave.o"
+"./Src/syscalls.o"
+"./Src/sysmem.o"
+"./Src/system_stm32f4xx.o"
+"./Startup/startup_stm32f407vgtx.o"
