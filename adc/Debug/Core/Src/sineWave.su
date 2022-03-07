@@ -1,0 +1,7 @@
+core_cm4.h:1816:22:__NVIC_SetPriority	16	static
+core_cm4.h:2022:26:SysTick_Config	16	static
+sineWave.c:15:6:flashGreen	8	static
+sineWave.c:24:6:setup	16	static
+sineWave.c:41:6:loopAudio	40	static
+sineWave.c:73:6:myAudioHalfTransferCallback	4	static
+sineWave.c:78:6:myAudioTransferCompleteCallback	8	static
