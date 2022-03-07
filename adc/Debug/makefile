@@ -60,8 +60,8 @@ all: main-build
 main-build: adc.elf secondary-outputs
 
 # Tool invocations
-adc.elf: $(OBJS) $(USER_OBJS) C:\Users\Gman\STM32CubeIDE\workspace_1.8.0\adc\STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "adc.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Gman\STM32CubeIDE\workspace_1.8.0\adc\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="adc.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+adc.elf: $(OBJS) $(USER_OBJS) /Users/luke/STM32CubeIDE/workspace_1.8.0/radio-weather/adc/STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "adc.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/luke/STM32CubeIDE/workspace_1.8.0/radio-weather/adc/STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="adc.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

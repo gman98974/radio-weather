@@ -2,6 +2,7 @@
 #include <math.h>
 #include "Audio_Drivers.h"
 #include "stm32f407xx.h" // Uncomment?
+#include "sineWave.h"
 
 #define PBSIZE 4096
 int16_t PlayBuff[PBSIZE];
@@ -11,7 +12,8 @@ int16_t SineBuff[SINELOOKUPSIZE];
 
 enum eBufferStatus { empty, finished, firstHalfReq, firstHalfDone, secondHalfReq, secondHalfDone } bufferStatus = empty;
 
-//float freq = 300;
+float currentPhase = 0.0f;
+
 void flashGreen() {
 	// Flashes green LED (PD12) to monitor performance
 	SystemCoreClockUpdate();
@@ -38,11 +40,8 @@ void setup() {
 }
 
 
-void loopAudio(float freq) {
-	// Fill buffer with
-
-	float currentPhase = 0.0f;
-	float phaseInc = SINELOOKUPSIZE * freq / AUDIO_FREQUENCY_44K;
+void loopAudio(float frequency) {
+	float phaseInc = SINELOOKUPSIZE * frequency / AUDIO_FREQUENCY_44K;
 
 	// If there's been a request to fill half of the buffer,
 	// then set the start and end points to fill:

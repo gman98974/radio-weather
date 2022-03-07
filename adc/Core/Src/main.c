@@ -21,14 +21,14 @@ static void MX_USART2_UART_Init(void);
 
 
 
-
+float frequency = 880;
 
 
 
 int main(void)
 {
 
-	//setup stuff
+	// Setup stuff
 
 	setup();
 	flashGreen();
@@ -42,7 +42,7 @@ int main(void)
 
 
 
-	//program stuff
+	// Program stuff
 
 	while(1) {
 
@@ -54,7 +54,7 @@ int main(void)
 	    // Get ADC value
 	    HAL_ADC_Start(&hadc1);
 	    HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
-	    raw = HAL_ADC_GetValue(&hadc1);
+	    raw = HAL_ADC_GetValue(&hadc1); // Serial port display
 	    // Test: Set GPIO pin low
 	    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_RESET);
 	    // Convert to string and print
@@ -62,25 +62,25 @@ int main(void)
 	    HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
 
 
-	    // does this actually still need to be here now we actually have something to do????
-	    HAL_Delay(1000);
+//	    // Messes up code - need to remove when complete
+//	    HAL_Delay(1000);
 
 
-
+// JAME'S CODE - MAKES COOL WUBBY SOUND
 	    //----Data Handling-----
-	    //----Frequency---------
-	    float frequency;
+
 	    // Convert the Range of inputs from an input range to a set of frequencies
 	    int RangeOne = (4096 - 0);
 	    int RangeTwo = (1760 - 110);   //frequency range from A4 to A6
 	    frequency = (((raw - 0) * RangeTwo) / RangeOne) + 0;
-//
+
 //	    // Quantise the Frequency
 //	    frequency = quantise(frequency);
 
+
 	    //send frequency to the sineWave
 		flashGreen();
-		loopAudio(1000.2);
+		loopAudio(frequency);
 
 
 	}

@@ -5,7 +5,8 @@ Core/Src/sineWave.o: ../Core/Src/sineWave.c ../Core/Inc/Audio_Drivers.h \
  ../Drivers/CMSIS/Include/cmsis_gcc.h ../Core/Inc/mpu_armv7.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h \
- ../Core/Inc/./cs43l22.h ../Core/Inc/././audio_replacement.h
+ ../Core/Inc/./cs43l22.h ../Core/Inc/././audio_replacement.h \
+ ../Core/Inc/sineWave.h
 
 ../Core/Inc/Audio_Drivers.h:
 
@@ -28,3 +29,5 @@ Core/Src/sineWave.o: ../Core/Src/sineWave.c ../Core/Inc/Audio_Drivers.h \
 ../Core/Inc/./cs43l22.h:
 
 ../Core/Inc/././audio_replacement.h:
+
+../Core/Inc/sineWave.h:
