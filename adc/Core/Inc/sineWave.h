@@ -1,11 +1,15 @@
 #ifndef SINEWAVE_H_
 #define SINEWAVE_H_
 
-// Audio callbacks
+/*
+ *	Function declarations
+ */
+
+// Audio callback functions.
 void myAudioHalfTransferCallback(void);
 void mmyAudioTransferCompleteCallback(void);
 
-// Buffer setup & playback functions
+// Buffer setup & playback functions.
 void setup(void);
 void loopAudio(float);
 void flashGreen(void);

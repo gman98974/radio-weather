@@ -18,20 +18,15 @@ static void MX_GPIO_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_USART2_UART_Init(void);
 
-
-
-
+// Initial variables.
 float frequency = 880;
-
 
 
 int main(void)
 {
-
-	// Setup stuff
-
+	// Initial components setup.
 	setup();
-	flashGreen();
+	//flashGreen(); // Optional for testing
 	uint16_t raw;
 	char msg[10];
 	HAL_Init();
@@ -40,14 +35,11 @@ int main(void)
 	MX_ADC1_Init();
 	MX_USART2_UART_Init();
 
-
-
-	// Program stuff
-
+	// Main while loop for playing audio.
 	while(1) {
 
 
-		//ADC STUFF Output comes out as "raw" variable which is a 16 bit variable
+		// ADC - Output comes out as "raw" variable which is a 16 bit variable
 
 	    // Test: Set GPIO pin high
 	    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, GPIO_PIN_SET);
@@ -62,12 +54,8 @@ int main(void)
 	    HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
 
 
-//	    // Messes up code - need to remove when complete
-//	    HAL_Delay(1000);
-
-
-// JAME'S CODE - MAKES COOL WUBBY SOUND
-	    //----Data Handling-----
+	    // JAMES CODE - quantise, still needs work
+/*
 
 	    // Convert the Range of inputs from an input range to a set of frequencies
 	    int RangeOne = (4096 - 0);
@@ -76,9 +64,9 @@ int main(void)
 
 //	    // Quantise the Frequency
 //	    frequency = quantise(frequency);
+*/
+	    // send frequency to the sineWave
 
-
-	    //send frequency to the sineWave
 		flashGreen();
 		loopAudio(frequency);
 
@@ -88,14 +76,7 @@ int main(void)
 
 
 
-
-
-
-
-
-// setup for reading inputs
-
-
+// Setup for reading inputs
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
@@ -224,7 +205,7 @@ void Error_Handler(void)
   */
 void assert_failed(uint8_t *file, uint32_t line)
 {
-  printf("Wrong Parameter Values??? idk thought it was a good idea to write something here") */
+  printf("Wrong Parameter Values") */
 }
 #endif /* USE_FULL_ASSERT */
 

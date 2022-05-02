@@ -1,21 +1,31 @@
 #include <stdint.h>
 #include <math.h>
 #include "Audio_Drivers.h"
-#include "stm32f407xx.h" // Uncomment?
+#include "stm32f407xx.h"
 #include "sineWave.h"
 
-#define PBSIZE 4096
-int16_t PlayBuff[PBSIZE];
-#define SINELOOKUPSIZE 1024
-int16_t SineBuff[SINELOOKUPSIZE];
+#define PBSIZE 4096					// Size of playback buffer.
+int16_t PlayBuff[PBSIZE];			// Defined as array of 16 bit integers.
+#define SINELOOKUPSIZE 1024			// Size of buffer used to store sine wave.
+int16_t SineBuff[SINELOOKUPSIZE];	// Same type as audio buffer.
 #define PI 3.1415926535897
 
+// Buffer status states.
 enum eBufferStatus { empty, finished, firstHalfReq, firstHalfDone, secondHalfReq, secondHalfDone } bufferStatus = empty;
 
+// Variables initialised with their starting values.
 float currentPhase = 0.0f;
+float volume = 80;
 
+
+/*
+ * 	Function definitions.
+ */
+
+// Used to monitor performance.
+// Attach oscilloscope probe to green LED pin (PD12) and monitor how
+// quickly the board generates new samples.
 void flashGreen() {
-	// Flashes green LED (PD12) to monitor performance
 	SystemCoreClockUpdate();
 	SysTick_Config(SystemCoreClock / 2);
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;
@@ -24,19 +34,19 @@ void flashGreen() {
 }
 
 void setup() {
-	// Sets up timer, peripherals & DAC and programs chip to run at 168 MHz
+	// Sets up timer, peripherals & DAC and programs chip to run at 168 MHz.
 	initAudioTimer();
 	myAudioSpeedUpTheSystemClock();
-	myAudioInitialisePeripherals(OUTPUT_DEVICE_AUTO, 80, AUDIO_FREQUENCY_44K); // Board output, volume, sample rate
+	myAudioInitialisePeripherals(OUTPUT_DEVICE_AUTO, volume, AUDIO_FREQUENCY_44K); // Board output, volume, sample rate
 	// Output options: OUTPUT_DEVICE_HEADPHONE, OUTPUT_DEVICE_AUTO or OUTPUT_DEVICE_BOTH
 
-	// Create lookup table and fill with sin values
+	// Fill previously created sine buffer with appropriate values.
 	for (int i = 0; i <= SINELOOKUPSIZE; i++) {
-		float q = 32760 * sin(i * 2.0 * PI / SINELOOKUPSIZE);
+		float q = 32760 * sin(2.0 * PI * i / SINELOOKUPSIZE);
 		SineBuff[i] = (int16_t)q;
 	}
 
-	myAudioStartPlaying(PlayBuff, PBSIZE); // Play buffer contents
+	myAudioStartPlaying(PlayBuff, PBSIZE); // Play current buffer contents.
 }
 
 
@@ -68,14 +78,14 @@ void loopAudio(float frequency) {
 	}
 }
 
-// Audio callback functions
+// Audio callback functions.
+// First half of buffer has been read.
 void myAudioHalfTransferCallback(void) {
-	// First half of buffer is read
-	bufferStatus = firstHalfReq;
+	bufferStatus = firstHalfReq; 			// DMA has read first half, request ARM to update first half with new samples.
 }
 
+// Second half of buffer has been read.
 void myAudioTransferCompleteCallback(void) {
-	// Entire buffer contents read
-	myAudioChangeBuffer(PlayBuff, PBSIZE);
-	bufferStatus = secondHalfReq;
+	myAudioChangeBuffer(PlayBuff, PBSIZE);	// Set DMA to begin reading from beginning of buffer.
+	bufferStatus = secondHalfReq; 			// DMA has read second half, request ARM to update second half with new samples.
 }
